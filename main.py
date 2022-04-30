@@ -1,6 +1,7 @@
 import pygame as pg
 import sys 
 
+
 def main():
     health = 100
     hunger = 100
