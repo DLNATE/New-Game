@@ -5,9 +5,11 @@ def main():
     all_sprites = pg.sprite.LayeredUpdates()
     walls = pg.sprite.LayeredUpdates()
     floor = pg.sprite.LayeredUpdates()
+    windows = pg.sprite.LayeredUpdates()
     tileMap = [
         'W..................W',
         'W..................W',
+        'W...O.....P........W',
         'W..................W',
         'W..................W',
         'W...S..............W',
@@ -49,6 +51,29 @@ def main():
             self.rect.x = self.x
             self.rect.y = self.y
             super().__init__(self.groups)
+    class Window(createTile):
+        def __init__(self, x, y, group, tileWidth, tileLength, color):
+            self.dest = True
+            super().__init__(x, y, group, tileWidth, tileLength, color)
+        def rer():
+            pass
+    class Bar(createTile):
+        def __init__(self, x, y, group, tileWidth, tileLength, color, skok, chto):
+            self.skok = skok
+            self.chto = chto
+
+            super().__init__(x, y, group, tileWidth, tileLength, color)
+        def hunger_bar():
+            pass
+        def heal_bar():
+            pass
+        def stress_bar():
+            pass
+        def energ_bar():
+            pass
+        def temp_bar():
+            pass
+
     class Player(createTile):
         def __init__(self, x, y, group, tileWidth, tileLength, color):
             super().__init__(x, y, group, tileWidth, tileLength, color, 3)
@@ -107,6 +132,44 @@ def main():
                 stair = Stair(b, i, None, 128, 448, PINK)
             elif c == 'P':
                 player = Player(b, i, None, 40, 120, RED)
+            elif c == 'O':
+                window1 = Window(b, i, windows, 120, 120, RED)
+            
+    class Logika():
+        def __init__(self, health, hunger, stress, temp, energy):
+            self.health = health
+            self.hunger = hunger
+            self.stress = stress
+            self.temp = temp
+            self.energy = energy
+        
+        def lig():
+            if self.hunger >= 75:
+                self.health += 0.04
+            if self.hunger < 25:
+                self.health -= 0.8
+                self.stress += 0.04
+            if self.hunger < 10:
+                self.health -= 0.16
+                self.stress += 0.16
+            if self.stress >= 50:
+                self.hunger -= 0.08
+            if self.stress >= 75:
+                self.hunger -= 0.16
+                self.energy -= 0.08
+            if self.temp < 50:
+                self.stress += 0.04
+                self.hunger -= 0.08
+            if self.temp < 25:
+                self.hunger -= 0.16
+                self.health -= 0.08
+            if self.energy < 50:
+                self.stress += 0.04
+            if self.energy < 25:
+                self.stress += 0.08
+            else:
+                self.hunger -= 0.04
+
     while True:
         screen.fill((0, 255, 255))
         
@@ -142,5 +205,6 @@ def main():
         player.move()
         pg.display.update()
         fps.tick(60)
+
 if __name__ == '__main__':
     main()
