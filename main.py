@@ -41,6 +41,7 @@ def main():
             if group == None:
                 self.groups = all_sprites
             self._layer = layer
+            
             self.image = pg.Surface((TILESIZE, TILESIZE))
             self.image.fill(self.color)
             self.image = pg.transform.scale(self.image, (tileWidth, tileLength))
@@ -48,7 +49,6 @@ def main():
             self.rect.x = self.x
             self.rect.y = self.y
             super().__init__(self.groups)
-
     class Player(createTile):
         def __init__(self, x, y, group, tileWidth, tileLength, color):
             super().__init__(x, y, group, tileWidth, tileLength, color, 3)
@@ -60,7 +60,7 @@ def main():
                 self.climebed = True
             
         def move(self):
-            if self.rect.y <= 250:
+            if self.rect.y <= 200:
                 self.climebed = True
             else:
                 self.climebed = False
@@ -125,8 +125,12 @@ def main():
                     sys.exit()
                 elif e.key == pg.K_f:
                     if player.rect.x - stair.rect.x <= 170 and player.rect.x - stair.rect.x >= -170 and player.rect.y >= 200:
-                        player.onStair = True
-                        stair.clicked()
+                        if player.rect.y >= 500:
+                            player.onStair = True
+                            stair.clicked()
+                        elif player.rect.y <= 250:
+                            player.onStair = True
+                            stair.clicked()
         pressed = pg.key.get_pressed()
         if pressed[pg.K_d] and pressed[pg.K_a] == False and player.onStair == False:
             player.speed_x += 3
