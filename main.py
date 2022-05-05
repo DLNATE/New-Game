@@ -10,11 +10,13 @@ def main():
     windows = pg.sprite.LayeredUpdates()
     tileMap = [
         'W..................W',
+        'W.....O............W',
         'W..................W',
-        'W...O.....P........W',
         'W..................W',
-        'W..................W',
+        'W..S...............W',
         'WFFFFFFFFFFFFFFFFFFW',
+        'W..................W',
+        'W........P.........W',
         'W..................W',
         'W..................W',
         'W..................W',
@@ -62,7 +64,7 @@ def main():
 
             super().__init__(x, y, group, tileWidth, tileLength, color)
         def hunger_bar():
-            
+            pass
         def heal_bar():
             pass
         def stress_bar():
@@ -74,36 +76,34 @@ def main():
 
     class Player(createTile):
         def __init__(self, x, y, group, tileWidth, tileLength, color):
+            super().__init__(x, y, group, tileWidth, tileLength, color, 3)
             self.speed_x, self.speed_y = 0, 0
             self.jumped = False
             self.onStair = False
             self.climebed = False
             if self.rect.y <= 250:
                 self.climebed = True
-            super().__init__(x, y, group, tileWidth, tileLength, color, 3)
         def move(self):
             if self.rect.y <= 200:
                 self.climebed = True
             else:
                 self.climebed = False
-            if self.speed_x >5:
+            if self.speed_x > 5:
                 self.speed_x = 5
             self.rect.x += self.speed_x
             spritesTouched = pg.sprite.spritecollide(self, walls, False)
-            if self.speed_x > 0 :
+            if self.speed_x > 0:
                 for sprite in spritesTouched:
                     self.rect.right = min(self.rect.right, sprite.rect.left)
-            if self.speed_x < 0 :
+            if self.speed_x < 0:
                 for sprite in spritesTouched:
                     self.rect.left = max(self.rect.left, sprite.rect.right)
             if player.onStair == False:
                 self.speed_y += GRAVITY
-            self.speed_y += GRAVITY
             self.rect.y += self.speed_y
             spritesTouched = pg.sprite.spritecollide(self, floor, False)
             if self.speed_y > 0 and player.onStair == False:
                 for sprite in spritesTouched:
-                    self.speed_y -= GRAVITY
                     self.rect.bottom = min(self.rect.bottom, sprite.rect.top)
                     self.jumped = False
                     self.speed_y = 0
